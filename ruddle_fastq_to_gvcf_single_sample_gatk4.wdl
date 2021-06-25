@@ -137,7 +137,7 @@ workflow Fastq_to_Gvcf_GATK4 {
   # Sort aggregated+deduped BAM file and fix tags
   call SortAndFixTags {
     input:
-      input_bam = MergeBamAlignment.output_bam,
+      input_bam = MarkDuplicates.output_bam,
       output_bam_basename = base_file_name + ".aligned.duplicate_marked.sorted",
       ref_dict = ref_dict,
       ref_fasta = ref_fasta,
