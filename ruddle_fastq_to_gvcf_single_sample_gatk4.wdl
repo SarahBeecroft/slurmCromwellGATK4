@@ -393,7 +393,7 @@ task SortAndFixTags {
       SortSam \
       --INPUT ${input_bam} \
       --OUTPUT /dev/stdout \
-      --SORT_ORDER "queryname" \
+      --SORT_ORDER "coordinate" \
       --CREATE_INDEX false \
       --CREATE_MD5_FILE false \
     | \
@@ -418,13 +418,12 @@ task MarkDuplicates {
   Array[File] input_bams
   String output_bam_basename
   String metrics_filename
-#
-#  Int compression_level
-#
-# # Task is assuming query-sorted input so that the Sesourcery and Supplementary reads get marked correctly.
+  Int compression_level
+
+# Task is assuming query-sorted input so that the Sesourcery and Supplementary reads get marked correctly.
   command {
   source /data/miniconda/bin/activate gatk4_pipeline && \
-  /data/cromwellGATK4/gatk-4.2.0.0/gatk --java-options "-Dsamjdk.compression_level=2 -Xms20000m" \
+  /data/cromwellGATK4/gatk-4.2.0.0/gatk --java-options "-Dsamjdk.compression_level=${compression_level} -Xms20000m" \
       MarkDuplicates \
       --INPUT ${sep=' --INPUT ' input_bams} \
       --OUTPUT ${output_bam_basename}.bam \
