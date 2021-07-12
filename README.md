@@ -51,17 +51,36 @@ These files are required for Multisample_Fastq_to_Gvcf_GATK4.
 
 ```
 Homo_sapiens_assembly38.dict
-Homo_sapiens_assembly38.fasta*
-gunzip Homo_sapiens_assembly38.dbsnp138.vcf.gz
+Homo_sapiens_assembly38.fasta
+Homo_sapiens_assembly38.fasta.fai
+Homo_sapiens_assembly38.fasta.64.alt
+Homo_sapiens_assembly38.fasta.64.amb
+Homo_sapiens_assembly38.fasta.64.ann
+Homo_sapiens_assembly38.fasta.64.bwt
+Homo_sapiens_assembly38.fasta.64.pac
+Homo_sapiens_assembly38.fasta.64.sa
+Homo_sapiens_assembly38.fasta.amb
+Homo_sapiens_assembly38.fasta.ann
+Homo_sapiens_assembly38.fasta.bwt
+Homo_sapiens_assembly38.fasta.pac
+Homo_sapiens_assembly38.fasta.sa
+Homo_sapiens_assembly38.dbsnp138.vcf.gz (needs to be gunzipped)
 Homo_sapiens_assembly38.dbsnp138.vcf.idx
-Mills_and_1000G_gold_standard.indels.hg38.vcf.gz*
-Homo_sapiens_assembly38.known_indels.vcf.gz*
+Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
+Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi
+Homo_sapiens_assembly38.dbsnp138.vcf
+Homo_sapiens_assembly38.dbsnp138.vcf.idx
+Homo_sapiens_assembly38.known_indels.vcf.gz
+Homo_sapiens_assembly38.known_indels.vcf.gz.tbi
 ```
 
 These additional files are required for Multisample_jointgt_GATK4.
 
 ```
 wgs_evaluation_regions.hg38.interval_list
+hg38.custom_100Mb.intervals
+Homo_sapiens_assembly38.dbsnp138.vcf
+Homo_sapiens_assembly38.dbsnp138.vcf.idx
 1000G_phase1.snps.high_confidence.hg38.vcf.gz
 1000G_phase1.snps.high_confidence.hg38.vcf.gz.tbi
 1000G_omni2.5.hg38.vcf.gz
