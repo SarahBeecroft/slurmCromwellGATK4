@@ -74,7 +74,7 @@ Homo_sapiens_assembly38.known_indels.vcf.gz
 Homo_sapiens_assembly38.known_indels.vcf.gz.tbi
 ```
 
-These additional files are required for Multisample_jointgt_GATK4.
+These files are required for Multisample_jointgt_GATK4.
 
 ```
 wgs_evaluation_regions.hg38.interval_list
