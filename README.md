@@ -1,8 +1,8 @@
-# Local Cromwell implementation of GATK4 germline variant calling pipeline
+# SLURM HPC Cromwell implementation of GATK4 germline variant calling pipeline
 See the [GATK](https://gatk.broadinstitute.org/hc/en-us) website for more information on this toolset 
 ## Assumptions
 - Using hg38 human reference genome build
-- Running 'locally' i.e. not using HPC/SLURM scheduling, or containers. This repo was specifically tested on Pawsey Nimbus 16 CPU, 64GB RAM virtual machine, primarily running in the `/data` volume storage partition. 
+- Running using HPC/SLURM scheduling. This repo was specifically tested on Pawsey Zeus machine, primarily running in the `/scratch` partition. 
 - Starting from short-read Illumina paired-end fastq files as input
 
 ### Dependencies
@@ -19,12 +19,14 @@ The following versions have been tested and work, but GATK and Cromwell are regu
 
 1. Clone repository
 ```
-git clone https://github.com/SarahBeecroft/cromwellGATK4.git
-cd cromwellGATK4
-chmod 777 *.sh
+git clone https://github.com/SarahBeecroft/slurmCromwellGATK4.git
+cd slurmCromwellGATK4
+chmod +x *.sh
 ```
 
-2. Install [Miniconda](https://docs.conda.io/en/latest/miniconda.html) if you haven’t already. Create Conda environment using the supplied conda environment file
+2. Install [Miniconda](https://docs.conda.io/en/latest/miniconda.html) if you haven’t already. This is best placed in your `/group` directory to avoid filling your small `/home` directory, or being purged is placed in the `/scratch` directory.
+
+3. Create Conda environment using the supplied conda environment file
 
 ```
 conda env create --file gatk4_pipeline.yml
@@ -60,18 +62,16 @@ find `pwd` -name "scattered.interval_list" -print | sort > hg38_wgs_scattered_ca
         - `launch_cromwell.sh` launches the fastq to gvcf stage
         - `launch_jointgt.sh` launched the gvcf joint genotyping to cohort vcf step. This is perfomed when you have run all samples through the fastq to gvcf stage.
         - Check the paths and parameters make sense for your machine
-    - `local.conf`
-        - the main tuneable parameters here are:
-        	- `concurrent-job-limit = 5` this is the max number of concurrent jobs that can be spawned by cromwell. This depends on the computational resources available to you. 5 was determined to work reasonably well on a 16 CPU, 64GB RAM Nimbus VM (Pawsey). 
-        	- `call-caching enabled = true`. Setting this parameter to `false` will disable call caching (i.e. being able to resume if the job fails before completion). By default, call caching is enabled. 
+    - `slurm.conf`
+        - the main options here relate to the job scheduler. If you are running on Zeus at Pawsey, you should not need to alter these parameters.
     - `cromwell.options`
         - `cromwell.options` requires editing to provide the directory where you would like the final workflow outputs to be written
     - `Multisample_Fastq_to_Gvcf_GATK4.wdl`
     - `ruddle_fastq_to_gvcf_single_sample_gatk4.wdl`
         - The paths to your jar files will need to be updated
-        - The path to your conda `activate` binary will need to be updated (e.g. `/data/miniconda/bin/activate`)
+        - The path to your conda `activate` binary will need to be updated (e.g. `/group/projectID/userID/miniconda/bin/activate`)
 
-6. Launch the job within a `screen` or `tmux` session, using `./launch_cromwell.sh`. When that has completed successfully, you can launch the second stage of the pipeline (joint calling) with `./launch_jointgt.sh`. Ensure you pipe the stdout and stderr to a log file using (for example) `./launch_cromwell.sh &> cromwell.log`
+6. Launch the job using `sbatch launch_cromwell.sh`. When that has completed successfully, you can launch the second stage of the pipeline (joint calling) with `sbatch launch_jointgt.sh`.
 
 ### Overview of the steps in `Multisample_Fastq_to_Gvcf_GATK4.wdl`
 This part of the pipeline takes short-read, Illumina paired-end fastq files as the input. The outputs generated are sorted, duplicate marked bam files and their indices, duplicate metric information, and a GVCF file for each sample. The GVCF files are used as input for the second part of the pipeline (joint genotyping).
