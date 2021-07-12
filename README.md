@@ -140,7 +140,7 @@ MergeGVCFs
 ```
 
 ### Overview of the steps in `Multisample_jointgt_GATK4.wdl`
-This part of the pipeline takes GVCF files (one per sample), and performs joint genotyping across all of the provided samples. This means that old previously generated GVCFs can be joint-called with new GVCFs whenever you need to add new samples. The key output from this is a joint-genotyped, cohort-wide VCF file. This file can be used for a GEMINI database after normalisation with VT and annotation with a tool such as VEP or SNPEFF. 
+This part of the pipeline takes GVCF files (one per sample), and performs joint genotyping across all of the provided samples. This means that old previously generated GVCFs can be joint-called with new GVCFs whenever you need to add new samples. The key output from this is a joint-genotyped, cohort-wide VCF file.
 
 ```
 GetNumberOfSamples
