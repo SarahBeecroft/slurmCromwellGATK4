@@ -38,12 +38,40 @@ conda env create --file gatk4_pipeline.yml
     - Picard can be downloaded from https://github.com/broadinstitute/picard/releases/
 
 
-4. Upload the resource bundle file from IRDS using rclone or filezilla and unpack it with `tar xzvf resource.tar.gz`. Note that the `hg38_wgs_scattered_calling_intervals.txt` will need to be to generated using the following:
+4. If you do not have the resource bundle files already, these need to be downloaded. In future they will be cached on Pawsey systems. The bundle data should be download from the Google Cloud bucket and not from the FTP site, which is missing various files. Refer to this handy blog post on how to download the resource files using Google Cloud SDK. There is a Slurm script (download_bundle.slurm) that can be used to download all hg38 files from the Google Cloud bucket. The files were downloaded in /scratch/pawsey0001/sbeecroft/hg38/v0, which needs to be moved before the data becomes purged after 30 days. Note that Homo_sapiens_assembly38.dbsnp138.vcf.gz was from the FTP bundle as this file could not be downloaded using the Conda version of Google Cloud SDK.
+
+Note that the `hg38_wgs_scattered_calling_intervals.txt` will need to be to generated using the following:
 
 ```
 cd <your_resource_dir>
 find `pwd` -name "scattered.interval_list" -print | sort > hg38_wgs_scattered_calling_intervals.txt
 ```
+
+These files are required for Multisample_Fastq_to_Gvcf_GATK4.
+
+```
+Homo_sapiens_assembly38.dict
+Homo_sapiens_assembly38.fasta*
+gunzip Homo_sapiens_assembly38.dbsnp138.vcf.gz
+Homo_sapiens_assembly38.dbsnp138.vcf.idx
+Mills_and_1000G_gold_standard.indels.hg38.vcf.gz*
+Homo_sapiens_assembly38.known_indels.vcf.gz*
+```
+
+These additional files are required for Multisample_jointgt_GATK4.
+
+```
+wgs_evaluation_regions.hg38.interval_list
+1000G_phase1.snps.high_confidence.hg38.vcf.gz
+1000G_phase1.snps.high_confidence.hg38.vcf.gz.tbi
+1000G_omni2.5.hg38.vcf.gz
+1000G_omni2.5.hg38.vcf.gz.tbi
+Axiom_Exome_Plus.genotypes.all_populations.poly.hg38.vcf.gz
+Axiom_Exome_Plus.genotypes.all_populations.poly.hg38.vcf.gz.tbi
+hapmap_3.3.hg38.vcf.gz
+hapmap_3.3.hg38.vcf.gz.tbi
+```
+
 
 5. Set up the config files. Files that you need to edit with the correct paths to your data/jar files or other specific configurations are:
     - `Multisample_Fastq_to_Gvcf_GATK4_inputs_hg38.json`
