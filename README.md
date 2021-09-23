@@ -64,8 +64,6 @@ Homo_sapiens_assembly38.fasta.ann
 Homo_sapiens_assembly38.fasta.bwt
 Homo_sapiens_assembly38.fasta.pac
 Homo_sapiens_assembly38.fasta.sa
-Homo_sapiens_assembly38.dbsnp138.vcf.gz (needs to be gunzipped)
-Homo_sapiens_assembly38.dbsnp138.vcf.idx
 Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
 Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi
 Homo_sapiens_assembly38.dbsnp138.vcf
